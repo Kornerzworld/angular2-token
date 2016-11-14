@@ -120,19 +120,11 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Register request
-    registerAccount(registerData: RegisterData): Observable<Response> {
+    registerAccount(registerData:any): Observable<Response> {
 
-        if (registerData.userType == null)
-            this._currentUserType = null;
-        else
-            this._currentUserType = this._getUserTypeByName(registerData.userType);
+        this.registerData.confirm_success_url = this._options.registerAccountCallback;
 
-        let body = JSON.stringify({
-            email:                  registerData.email,
-            password:               registerData.password,
-            password_confirmation:  registerData.passwordConfirmation,
-            confirm_success_url:    this._options.registerAccountCallback
-        });
+        let body = JSON.stringify(registerData);
 
         return this.post(this._constructUserPath() + this._options.registerAccountPath, body);
     }
