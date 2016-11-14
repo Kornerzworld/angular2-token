@@ -150,14 +150,14 @@ Once initialized `Angular2TokenService` offers methods for session management.
 The signIn method is used to sign in the user with email address and password.
 The optional parameter `type` specifies the name of UserType used for this session.
 
-`signIn(email: string, password: string, userType?: string): Observable<Response>`
+`signIn({email: string, password: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
-this._tokenService.signIn(
-    'example@example.org',
-    'secretPassword'
-).subscribe(
+this._tokenService.signIn({
+    email:    'example@example.org',
+    password: 'secretPassword'
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -179,15 +179,15 @@ this._tokenService.signOut().subscribe(
 ### .registerAccount()
 Sends a new user registration request to the Server.
 
-`registerAccount(email: string, password: string, passwordConfirmation: string, userType?: string): Observable<Response>`
+`registerAccount({email: string, password: string, passwordConfirmation: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
-this._tokenService.registerAccount(
-    'example@example.org',
-    'secretPassword',
-    'secretPassword'
-).subscribe(
+this._tokenService.registerAccount({
+    email:                'example@example.org',
+    password:             'secretPassword',
+    passwordConfirmation: 'secretPassword'
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -222,15 +222,15 @@ this._tokenService.validateToken().subscribe(
 ### .updatePassword()
 Updates the password for the logged in user.
 
-`updatePassword(password: string, passwordConfirmation: string, currentPassword?: string, userType?: string): Observable<Response>`
+`updatePassword({password: string, passwordConfirmation: string, currentPassword?: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
-this._tokenService.updatePassword(
-    'newPassword',
-    'newPassword',
-    'oldPassword'
-).subscribe(
+this._tokenService.updatePassword({
+    password:             'newPassword',
+    passwordConfirmation: 'newPassword',
+    passwordCurrent:      'oldPassword'
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -239,13 +239,13 @@ this._tokenService.updatePassword(
 ### .resetPassword()
 Request a password reset from the server.
 
-`resetPassword(email: string, userType?: string): Observable<Response>`
+`resetPassword({email: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
-this._tokenService.updatePassword(
-    'example@example.org',
-).subscribe(
+this._tokenService.updatePassword({
+    email: 'example@example.org',
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -284,11 +284,11 @@ this._tokenService.init({
     ]
 });
 
-this._tokenService.signIn(
-    'example@example.com',
-    'secretPassword',
-    'ADMIN'
-)
+this._tokenService.signIn({
+    email:    'example@example.com',
+    password: 'secretPassword',
+    userType: 'ADMIN'
+})
 
 this._tokenService.currentUserType; // ADMIN
 ```
@@ -355,10 +355,10 @@ Returns current authentication data which are used to set auth headers.
 If you want to redirect to the protected URL after signing in, you need to set `signInStoredUrlStorageKey` and in your code you can do something like this
 
 ```js
-this._tokenService.signIn(
-    'example@example.org',
-    'secretPassword'
-).subscribe(
+this._tokenService.signIn({
+    email:    'example@example.org',
+    password: 'secretPassword'
+}).subscribe(
     res => {
         // You have to add Router DI in your component
         this.router.navigateByUrl(localStorage.getItem('redirectTo'));
